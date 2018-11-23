@@ -2,7 +2,7 @@
 :- include('save-load.pl').
 :- include('player.pl').
 :- include('display.pl').
-:- include('command.pl').
+:- include('commands.pl').
 :- include('enemy-supply.pl').
 
 start :-
