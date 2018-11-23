@@ -86,5 +86,6 @@ command(help) :-
 command(quit) :- 
     nl,
     write(' Exiting the game...'), nl,
+    erase_memory,
     nl,
     nl.

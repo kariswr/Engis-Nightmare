@@ -92,3 +92,17 @@ init_game :-
 /*---------- LOAD ----------*/
 
 /*---------- SAVE ----------*/
+
+/*---------- QUIT ----------*/
+erase_memory :-
+    retract(game_ready(_)),
+    retract(player_position(_,_)),
+    retract(player_armor(_)),
+    retract(player_weapon(_,_)),
+    retract(player_health(_)),
+    retract(player_inventory(_,_)),
+    retractall(object(_,_,_)),
+    retractall(enemy(_,_,_)),
+    retract(num_enemies(_)),
+    retract(clock(_)),
+    retractall(deadzone(_,_)).
