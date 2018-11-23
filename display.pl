@@ -33,6 +33,18 @@ show_credits :-
     nl,
     nl.
 
+/*---------- GAME MESSAGES ----------*/
+message_new_game :- write('New game started.'), nl.
+message_load_game :- write('Game loaded.'), nl.
+message_warning :- 
+    write('This will overwrite your current game. Continue? y/n'), nl,
+    read(Answer), nl,
+    Answer == 'y'.
+message_save_game :- write('Game saved.'), nl.
+message_game_not_ready :- write('Please load a file or create a new game first.'), nl.
+message_exit_game :- write('Exiting the game...'), nl.
+
+
 /*---------- STATUS ----------*/
 write_inventory :- write('Create procedure to show player inventory.'), nl.
 

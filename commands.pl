@@ -19,18 +19,36 @@ command(X) :-
 
 /*---------- NEW GAME ----------*/
 command(new) :-
+    game_ready(false), !,
     set_game_ready,
     init_game,
-    write('New game started.'), nl.
+    message_new_game.
+
+command(new) :-
+    game_ready(true),
+    message_warning,
+    erase_memory,
+    asserta(game_ready(false)),
+    command(new).
 
 /*---------- LOAD ----------*/
 command(load(X)) :-
+    game_ready(false), !,
     set_game_ready,
-    write('Create procedure/function to read external file.'), nl.
+    % load procedures
+    message_load_game.
+
+command(load(X)) :-
+    game_ready(true),
+    message_warning,
+    erase_memory,
+    asserta(game_ready(false)),
+    command(load(X)).
 
 /*---------- SAVE ----------*/
 command(save(X)) :-
-    write('Create procedure/function to write to external file.'), nl.
+    % save procedures
+    message_save_game.
 
 /*---------- STATUS ----------*/
 command(status) :-
@@ -39,44 +57,32 @@ command(status) :-
 
 command(status) :-
     game_ready(false),
-    write('Please load a file or create a new game first.'), nl.
+    message_game_not_ready.
 
 /*---------- MAP ----------*/
-command(map) :- 
-    write('Create procedure/function to show the map.'), nl.
+% command(map) :- 
+ 
 
 /*---------- MOVING ----------*/
-command(n) :-
-    write('Create procedure/function to move player north.'), nl.
-
-command(s) :-
-    write('Create procedure/function to move player south.'), nl.
-
-command(e) :-
-    write('Create procedure/function to move player east.'), nl.
-
-command(w) :-
-    write('Create procedure/function to move player west.'), nl.
+% command(n) :-
+% command(s) :-
+% command(e) :-
+% command(w) :-
 
 /*---------- LOOK ----------*/
-command(look) :-
-    write('Create procedure/function to show close-up map.'), nl.
+% command(look) :-
 
 /*---------- TAKE ----------*/
-command(take(X)) :-
-    write('Create procedure/function to remove object from map and insert to inventory.'), nl.
+% command(take(X)) :-
 
 /*---------- DROP ----------*/
-command(drop(X)) :-
-    write('Create procedure/function to remove object from inventory and insert to map.'), nl.
+% command(drop(X)) :-
 
 /*---------- USE ----------*/
-command(use(X)) :-
-    write('Create procedure/function to remove object from inventory and modify player status.'), nl.
+% command(use(X)) :-
 
 /*---------- ATTACK ----------*/
-command(attack) :-
-    write('Create procedure/function to remove enemy from map, drop objects, and modify player status.'), nl.
+% command(attack) :-
 
 /*---------- HELP ----------*/
 command(help) :-
@@ -85,7 +91,7 @@ command(help) :-
 /*---------- QUIT ----------*/
 command(quit) :- 
     nl,
-    write(' Exiting the game...'), nl,
     erase_memory,
+    message_exit_game,
     nl,
     nl.
