@@ -17,6 +17,13 @@ command(X) :-
     \+ X = quit,
     write('No such command.'), nl.
 
+command(X) :-
+    \+ X = new,
+    \+ X = load(Y),
+    \+ X = save(Y),
+    game_ready(false), !,
+    message_game_not_ready.
+
 /*---------- NEW GAME ----------*/
 command(new) :-
     game_ready(false), !,
@@ -54,10 +61,6 @@ command(save(X)) :-
 command(status) :-
     \+ game_ready(false), !,
     show_status.
-
-command(status) :-
-    game_ready(false),
-    message_game_not_ready.
 
 /*---------- MAP ----------*/
 % command(map) :- 
