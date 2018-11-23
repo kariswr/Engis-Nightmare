@@ -259,7 +259,8 @@ update_deadzone :- clock(X).
 player_in_deadzone :-
     deadzone(X,Y), player_position(X,Y), !,
     message_player_in_deadzone,
-    player_health(0). 
+    erase_memory,
+    asserta(game_ready(false)). 
 
 player_in_deadzone :-
     deadzone(X,Y), \+player_position(X,Y).
