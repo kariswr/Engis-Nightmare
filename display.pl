@@ -43,7 +43,7 @@ message_warning :-
 message_save_game :- write('Game saved.'), nl.
 message_game_not_ready :- write('Please load a file or create a new game first.'), nl.
 message_exit_game :- write('Exiting the game...'), nl.
-
+message_player_in_deadzone :- write('You got deadzoned!'), nl.
 
 /*---------- STATUS ----------*/
 write_inventory :- write('Create procedure to show player inventory.'), nl.
