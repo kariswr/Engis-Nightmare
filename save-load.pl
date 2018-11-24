@@ -106,7 +106,7 @@ save_game(Filename):-
 	
 	supply(S_a,S_b,S_c),
 	enemy(E_a, E_b, E_c),
-    deadzone(D_a,D_b),
+    	deadzone(D_a,D_b),
 
 	/* Write player data */
 	write(Stream, Health), 			write(Stream, '.'), nl(Stream),
