@@ -270,6 +270,9 @@ enemies_in_deadzone(EL) :- findall((Type,I,J), (enemy(Type,I,J), deadzone(I,J)),
 kill_enemies([]).
 kill_enemies([(Type,I,J)|T]) :-
     retract(enemy(Type,I,J)),
+    retract(num_enemies(X)),
+    Y is X - 1,
+    asserta(num_enemies(Y)),
     kill_enemies(T).
 
 /*---------- The One Procedure to Change It All ----------*/
