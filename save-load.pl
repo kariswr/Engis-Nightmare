@@ -12,7 +12,7 @@ init_player :-
     asserta(player_armor(0)),
     asserta(player_weapon(none, 0)),
     asserta(player_health(100)),
-    asserta(player_inventory([],0)).
+    asserta(player_inventory([],10)).
 
 init_enemies :- 
     asserta(enemy(a,1,1)),
