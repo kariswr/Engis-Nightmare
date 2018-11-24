@@ -92,6 +92,43 @@ init_game :-
 /*---------- LOAD ----------*/
 
 /*---------- SAVE ----------*/
+save_game(Filename):-
+	/* Function to save file */
+	
+	open(Filename, write, Stream),
+
+	/* Gathering data */
+	player_health(Health), 
+	player_armor(Armor), 
+	player_position(Pos_x, Pos_y), 
+	player_weapon(W_a, W_b),
+	player_inventory(Inv_a, Inv_b),
+	
+	supply(S_a,S_b,S_c),
+	enemy(E_a, E_b, E_c),
+    deadzone(D_a,D_b),
+
+	/* Write player data */
+	write(Stream, Health), 			write(Stream, '.'), nl(Stream),
+	write(Stream, Armor), 			write(Stream, '.'), nl(Stream),
+	write(Stream, Pos_x), 			write(Stream, '.'), nl(Stream),
+	write(Stream, Pos_y), 			write(Stream, '.'), nl(Stream),
+	write(Stream, W_a), 			write(Stream, '.'), nl(Stream),
+    write(Stream, W_b), 			write(Stream, '.'), nl(Stream),
+    write(Stream, Inv_a), 			write(Stream, '.'), nl(Stream),
+	write(Stream, Inv_b), 		    write(Stream, '.'), nl(Stream),
+	
+	/* Write map data */
+	write(Stream, supply), 		    write(Stream, '.'), nl(Stream),
+    write(Stream, enemy), 		    write(Stream, '.'), nl(Stream),
+	write(Stream, deadzone), 		write(Stream, '.'), nl(Stream),
+	
+	write('Save data successfully created !'), nl,
+	close(Stream).
+	
+
+
+
 
 /*---------- QUIT ----------*/
 erase_memory :-
