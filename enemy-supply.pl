@@ -82,6 +82,9 @@ enemies :-
 deadzones :-
     setof(X, deadzone(X,X), DL), write(DL).
 
+supplies :-
+    findall(X, supply(X,I,J), SL), write(SL).
+
 
 /*---------- Clock ----------*/
 update_clock :-
@@ -275,9 +278,72 @@ kill_enemies([(Type,I,J)|T]) :-
     asserta(num_enemies(Y)),
     kill_enemies(T).
 
+/*---------- Supply Drop ----------*/
+generate_supply(0) :- random(0,5,Type), random(1,11,I), random(1,11,J), generate_weapon(Type,I,J).
+generate_supply(1) :- random(0,6,Type), random(1,11,I), random(1,11,J), generate_ammo(Type,I,J).
+generate_supply(2) :- random(0,6,Type), random(1,11,I), random(1,11,J), generate_armor(Type,I,J).
+generate_supply(3) :- random(0,15,Type), random(1,11,I), random(1,11,J), generate_ingredient(Type,I,J).
+generate_supply(4) :- random(0,10,Type), random(1,11,I), random(1,11,J), generate_bag(Type,I,J).     
+
+generate_weapon(0,I,J) :- asserta(supply(spatula,I,J)).
+generate_weapon(1,I,J) :- asserta(supply(silverware_sling,I,J)).
+generate_weapon(2,I,J) :- asserta(supply(salt_shaker,I,J)).
+generate_weapon(3,I,J) :- asserta(supply(msg_shaker,I,J)).
+generate_weapon(4,I,J) :- asserta(supply(trashbag,I,J)).
+
+generate_ammo(0,I,J) :- asserta(supply(forks,I,J)).
+generate_ammo(1,I,J) :- asserta(supply(knives,I,J)).
+generate_ammo(2,I,J) :- asserta(supply(spoons,I,J)).
+generate_ammo(3,I,J) :- asserta(supply(salt,I,J)).
+generate_ammo(4,I,J) :- asserta(supply(msg,I,J)).
+generate_ammo(5,I,J) :- asserta(supply(trash,I,J)).
+
+generate_armor(0,I,J) :- asserta(supply(tray,I,J)).
+generate_armor(1,I,J) :- asserta(supply(hand,I,J)).
+generate_armor(2,I,J) :- asserta(supply(chef_hat,I,J)).
+generate_armor(3,I,J) :- asserta(supply(pot,I,J)).
+generate_armor(4,I,J) :- asserta(supply(apron,I,J)).
+generate_armor(5,I,J) :- asserta(supply(mittens,I,J)).
+
+generate_ingredient(0,I,J) :- asserta(supply(patty,I,J)).
+generate_ingredient(1,I,J) :- asserta(supply(moldy_patty,I,J)).
+generate_ingredient(2,I,J) :- asserta(supply(cheese,I,J)).
+generate_ingredient(3,I,J) :- asserta(supply(moldy_cheese,I,J)).
+generate_ingredient(4,I,J) :- asserta(supply(milk,I,J)).
+generate_ingredient(5,I,J) :- asserta(supply(spoiled_milk,I,J)).
+generate_ingredient(6,I,J) :- asserta(supply(rice,I,J)).
+generate_ingredient(7,I,J) :- asserta(supply(bread,I,J)).
+generate_ingredient(8,I,J) :- asserta(supply(moldy_bread,I,J)).
+generate_ingredient(9,I,J) :- asserta(supply(banana,I,J)).
+generate_ingredient(10,I,J) :- asserta(supply(banana_peel,I,J)).
+generate_ingredient(11,I,J) :- asserta(supply(egg,I,J)).
+generate_ingredient(12,I,J) :- asserta(supply(raw_egg,I,J)).
+generate_ingredient(13,I,J) :- asserta(supply(chicken_meat,I,J)).
+generate_ingredient(14,I,J) :- asserta(supply(chicken,I,J)).
+
+generate_bag(0,I,J) :- asserta(supply(extra_pocket,I,J)).
+generate_bag(1,I,J) :- asserta(supply(extra_pocket,I,J)).
+generate_bag(2,I,J) :- asserta(supply(extra_pocket,I,J)).
+generate_bag(3,I,J) :- asserta(supply(flour_sack,I,J)).
+generate_bag(4,I,J) :- asserta(supply(flour_sack,I,J)).
+generate_bag(5,I,J) :- asserta(supply(cardboard_box,I,J)).
+generate_bag(6,I,J) :- asserta(supply(cardboard_box,I,J)).
+generate_bag(7,I,J) :- asserta(supply(cardboard_box,I,J)).
+generate_bag(8,I,J) :- asserta(supply(trolley,I,J)).
+generate_bag(9,I,J) :- asserta(supply(fridge,I,J)).
+
+drop_supply :-
+    random(0, 5, R),
+    generate_supply(R). 
+
+update_supplies :- clock(X), 0 is mod(X,5), !, drop_supply.
+update_supplies :- clock(X), \+ 0 is mod(X,5).
+
 /*---------- The One Procedure to Change It All ----------*/
 tick_tock :-
     update_clock,
     update_deadzone,
     player_in_deadzone,
+    update_supplies, !,
     update_enemies. 
+
