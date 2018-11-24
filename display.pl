@@ -49,11 +49,21 @@ message_take_succeed(Name) :- write('You take '), write(Name), write('.'), nl.
 message_invent_full :- write('Sorry, your inventory is full.'), nl.
 message_nonenemy_around :- write('There is no enemy around you.'), nl.
 message_supply_notfound(Name):- write('Sorry, there is no '), write(Name), write(' in your inventory.').
-message_nonenemy_here:- write("There is no enemy here. You can't attack the enemy."), nl.
+message_nonenemy_here:- write("There is no enemy here. Your attack is useless"), nl.
 message_no_ammo:- write("You ran out of ammo. You can't attack the enemy."), nl.
 message_no_weapon:- write("You don't hold any weapon. You can't attack the enemy. Please use one of your weapon in inventory."), nl.
 message_drop_succeed(Name):-write('You have successfully drop the '), write(Name), write('.'), nl.
-
+message_itemtake_found(Name):- write('You take '),write(Name),write('.'),nl.
+message_enemy_killed(Name):- write('You have killed '), write(Name), write('.'),nl.
+message_injured_butenemykilled(Name,Damage):- write("You have defeated "),write(Name),write('. '),write('Tho.. you took some hit from '),write(Name),write("'s attack."),nl,
+											write('Health -'),write(Damage),nl.
+message_player_gotkilled(Name):- write("Uh.. Oh.. You have been killed by "), write(Name), write('.'), nl.
+message_use_weapon(Name):- write('You equiped '),write(Name),write('.'),nl.
+message_use_ingredient(Name,Value):- write('You eat '),write(Name),write('. '),write("Health +"),write(Value),nl.
+message_use_ingredient(Name,Damage):- write('Oh no!!! You eat '),write(Name),write('. '),write("Health -"),write(Value),nl.
+message_use_bag(Name,X):- write('You equiped '),write(Name),write('. '),write("Inventory +"),write(X),nl.
+message_use_ammo(Name,Value):- write('You equipped '),write(Name),write(' on your weapon. '),write("Ammunition +"),write(Value),nl.
+message_wrong_ammo(Weapon):- write('You selected wrong ammo type for '),write(Weapon),write('. '),nl.
 /*---------- STATUS ----------*/
 write_inventory([],Num).
 write_inventory([X|Xs],Num) :-write(Num), write('. '), write(X), nl, Y is Num+1, write_inventory(Xs,Y).
@@ -88,6 +98,10 @@ show_status :-
     write_inventory(L,Num).
 
 /*---------- MAP ----------*/
+
+/*data test*/
+/*deadzone(2,2).
+player_position(3,3).*/
 
 /*mengecek lebar deadzone*/
 deadzone_check(X) :- deadzone(4,4), X is 4, !.
@@ -242,6 +256,7 @@ show_map :-
 enemy(ryan, 2, 2).
 enemy(prim, 2, 2).
 player_position(2,2).
+area(2,2,lounge).
 supply(egg,2,2).
 supply(egg,2,1).
 supply(spoon,3,3).
