@@ -20,7 +20,6 @@ command(X) :-
 command(X) :-
     \+ X = new,
     \+ X = load(Y),
-    \+ X = save(Y),
     game_ready(false), !,
     message_game_not_ready.
 
@@ -59,7 +58,6 @@ command(save(X)) :-
 
 /*---------- STATUS ----------*/
 command(status) :-
-    \+ game_ready(false), !,
     show_status.
 
 /*---------- MAP ----------*/
