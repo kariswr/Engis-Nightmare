@@ -15,7 +15,7 @@ command(X) :-
     \+ X = attack,
     \+ X = help,
     \+ X = quit,
-    write('No such command.'), nl.
+    message_command_invalid.
 
 command(X) :-
     \+ X = new,
@@ -91,8 +91,5 @@ command(help) :-
 
 /*---------- QUIT ----------*/
 command(quit) :- 
-    nl,
     erase_memory,
-    message_exit_game,
-    nl,
-    nl.
+    message_exit_game.

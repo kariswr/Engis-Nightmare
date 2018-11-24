@@ -34,6 +34,7 @@ show_credits :-
     nl.
 
 /*---------- GAME MESSAGES ----------*/
+message_command_invalid :- write('No such command.'), nl.
 message_new_game :- write('New game started.'), nl.
 message_load_game :- write('Game loaded.'), nl.
 message_warning :- 
