@@ -9,9 +9,9 @@ delElmt(A,[H|T],X) :- H \== A, append(H,delElmt(A,T,X),Result), X is Result.
 
 /*---------- N, S, W, E ----------*/
 n :- retract(player_position(I,J)), X is I+1, asserta(player_position(X,J)).
-s :- player_position(I,J), X is I-1, player_position(X,J).
-w :- player_position(I,J), X is J-1, player_position(I,X).
-e :- player_position(I,J), X is J+1, player_position(I,X).
+s :- retract(player_position(I,J)), X is I-1, asserta(player_position(X,J)).
+w :- retract(player_position(I,J)), X is J-1, asserta(player_position(I,X)).
+e :- retract(player_position(I,J)), X is J+1, asserta(player_position(I,X)).
 
 /*---------- TAKE ----------*/
 take(Name) :- supply(Name,I,J), player_position(I,J), player_inventory(L,Max), countElmt(L,X), X <Max, append([Name],L,Result), L is Result,retract(supply(Name,I,J)),message_take_succeed.
