@@ -90,6 +90,72 @@ init_game :-
     init_deadzone.
 
 /*---------- LOAD ----------*/
+load_game(Filename):-
+	/* Function to load file */
+	
+	open(Filename, read, Stream),
+
+	player_health(Health), 
+	player_armor(Armor),  
+	player_position(Pos_x, Pos_y), 
+	player_weapon(W_a,W_b),
+	player_inventory(Inv_a,Inv_b),
+	
+	retract(player_health(Health)),
+	retract(player_armor(Armor)),
+	retract(player_position(Pos_x, Pos_y)),
+	retract(player_weapon(W_a,W_b)),
+	retract(player_inventory(Inv_a,Inv_b)),
+	
+	/* Read player data */
+	read(Stream, New_Health), 	  	 
+	read(Stream, New_Armor), 	 
+	read(Stream, New_Pos_x), 	
+	read(Stream, New_Pos_y),	
+	read(Stream, New_W_a),
+	read(Stream, New_W_b),
+	read(Stream, New_Inv_a),	
+	read(Stream, New_Inv_b), 
+	
+	asserta(player_health(New_Health)),
+	asserta(player_armor(New_Armor)),
+	asserta(player_position(New_Pos_x, New_Pos_y)),
+	asserta(player_weapon(New_W_a, New_W_b)),
+	asserta(player_inventory(New_Inv_a, New_Inv_b)),
+	
+	supply(S_a,S_b,S_c),
+	enemy(E_a, E_b, E_c),
+	deadzone(D_a,D_b),
+	clock(Clock),
+	num_enemies(NumEn),
+
+	retract(supply(S_a,S_b,S_c)),
+	retract(enemy(E_a, E_b, E_c)),
+	retract(deadzone(D_a,D_b)),
+	retract(clock(Clock)),
+	retract(num_enemies(NumEn)),
+	
+	/* Read map data */
+	read(Stream, New_S_a),
+	read(Stream, New_S_b),
+	read(Stream, New_S_c),
+	read(Stream, New_E_a),
+	read(Stream, New_E_b),
+	read(Stream, New_E_c),
+	read(Stream, New_D_a),
+	read(Stream, New_D_b),
+	read(Stream, New_Clock),		
+	read(Stream, New_NumEn),			
+
+	asserta(supply(New_S_a, New_S_b, New_S_c)),
+	asserta(enemy(New_E_a, New_E_b, New_E_c)),
+	asserta(deadzone(New_D_a, New_D_b)),
+	asserta(clock(New_Clock)),
+	asserta(num_enemies(New_NumEn)),
+	
+	write('Data successfully loaded !'), nl,
+	close(Stream).
+
 
 /*---------- SAVE ----------*/
 save_game(Filename):-
