@@ -42,7 +42,7 @@ command(load(X)) :-
     game_ready(false), !,
     set_game_ready,
     % load procedures
-    load_game(X),
+    \+load_game(X),!,
     message_load_game.
 
 command(load(X)) :-
