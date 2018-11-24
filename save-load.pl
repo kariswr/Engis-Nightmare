@@ -128,11 +128,12 @@ save_game(Filename):-
     	write(Stream, E_a), 		    	write(Stream, '.'), nl(Stream),
 	write(Stream, E_b), 		    	write(Stream, '.'), nl(Stream),
 	write(Stream, E_c), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, NumEn), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, Clock), 		    	write(Stream, '.'), nl(Stream),
 	write(Stream, D_a),	 		write(Stream, '.'), nl(Stream),
-	write(Stream, D_a), 			write(Stream, '.'), nl(Stream),
+	write(Stream, D_b), 			write(Stream, '.'), nl(Stream),
+	write(Stream, Clock), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, NumEn), 		    	write(Stream, '.'), nl(Stream),
 	
+		
 	write('Save data successfully created !'), nl,
 	close(Stream).
 	
