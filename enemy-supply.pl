@@ -77,13 +77,13 @@ print_info :-
     enemies.
 
 enemies :-
-    enemy_list(L), write(L).
+    enemy_list(EL), write(EL).
 
 deadzones :-
-    setof(X, deadzone(X,X), DL), write(DL).
+    deadzone_list(DL), write(DL).
 
 supplies :-
-    findall((X,I,J), supply(X,I,J), SL), write(SL).
+    supply_list(SL), write(SL).
 
 
 /*---------- Clock ----------*/
@@ -273,6 +273,8 @@ update_deadzone :- clock(41), !, init_deadzone4.
 update_deadzone :- clock(51), !, init_deadzone5.
 update_deadzone :- clock(X).
 
+deadzone_list(L) :- findall((X,Y), deadzone(X,Y), L).
+
 player_in_deadzone :-
     deadzone(X,Y), player_position(X,Y), !,
     message_player_in_deadzone,
@@ -352,6 +354,8 @@ drop_supply :-
 
 update_supplies :- clock(X), 0 is mod(X,5), !, drop_supply.
 update_supplies :- clock(X), \+ 0 is mod(X,5).
+
+supply_list(L) :- findall((Type,I,J), supply(Type,I,J), L).
 
 /*---------- The One Procedure to Change It All ----------*/
 tick_tock :-
