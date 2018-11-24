@@ -63,8 +63,8 @@ command(status) :-
     show_status.
 
 /*---------- MAP ----------*/
-% command(map) :- 
- 
+command(map) :-
+	show_map.
 
 /*---------- MOVING ----------*/
 % command(n) :-
@@ -73,7 +73,8 @@ command(status) :-
 % command(w) :-
 
 /*---------- LOOK ----------*/
-% command(look) :-
+command(look) :-
+	look.
 
 /*---------- TAKE ----------*/
 % command(take(X)) :-
