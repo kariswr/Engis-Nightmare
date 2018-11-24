@@ -107,6 +107,9 @@ save_game(Filename):-
 	supply(S_a,S_b,S_c),
 	enemy(E_a, E_b, E_c),
     	deadzone(D_a,D_b),
+	clock(Clock),
+	num_enemies(NumEn),
+	
 
 	/* Write player data */
 	write(Stream, Health), 			write(Stream, '.'), nl(Stream),
@@ -119,9 +122,16 @@ save_game(Filename):-
 	write(Stream, Inv_b), 		    	write(Stream, '.'), nl(Stream),
 	
 	/* Write map data */
-	write(Stream, supply), 		    	write(Stream, '.'), nl(Stream),
-    	write(Stream, enemy), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, deadzone), 		write(Stream, '.'), nl(Stream),
+	write(Stream, S_a), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, S_b), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, S_c), 		    	write(Stream, '.'), nl(Stream),
+    	write(Stream, E_a), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, E_b), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, E_c), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, NumEn), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, Clock), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, D_a),	 		write(Stream, '.'), nl(Stream),
+	write(Stream, D_a), 			write(Stream, '.'), nl(Stream),
 	
 	write('Save data successfully created !'), nl,
 	close(Stream).
