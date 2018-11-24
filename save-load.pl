@@ -114,13 +114,13 @@ save_game(Filename):-
 	write(Stream, Pos_x), 			write(Stream, '.'), nl(Stream),
 	write(Stream, Pos_y), 			write(Stream, '.'), nl(Stream),
 	write(Stream, W_a), 			write(Stream, '.'), nl(Stream),
-    write(Stream, W_b), 			write(Stream, '.'), nl(Stream),
-    write(Stream, Inv_a), 			write(Stream, '.'), nl(Stream),
-	write(Stream, Inv_b), 		    write(Stream, '.'), nl(Stream),
+   	write(Stream, W_b), 			write(Stream, '.'), nl(Stream),
+    	write(Stream, Inv_a), 			write(Stream, '.'), nl(Stream),
+	write(Stream, Inv_b), 		    	write(Stream, '.'), nl(Stream),
 	
 	/* Write map data */
-	write(Stream, supply), 		    write(Stream, '.'), nl(Stream),
-    write(Stream, enemy), 		    write(Stream, '.'), nl(Stream),
+	write(Stream, supply), 		    	write(Stream, '.'), nl(Stream),
+    	write(Stream, enemy), 		    	write(Stream, '.'), nl(Stream),
 	write(Stream, deadzone), 		write(Stream, '.'), nl(Stream),
 	
 	write('Save data successfully created !'), nl,
