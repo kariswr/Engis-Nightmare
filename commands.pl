@@ -63,7 +63,7 @@ command(status) :-
     show_status.
 
 /*---------- MAP ----------*/
-% command(map) :-
+command(map) :-
 	show_map.
 
 /*---------- MOVING ----------*/
