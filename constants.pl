@@ -36,7 +36,7 @@ weapon(trashbag, 10).
 
 % ammo(WeaponName,MinNumber,MaxNumber)
 ammo(forks, 2, 5).
-ammo(knifes, 2, 5).
+ammo(knives, 2, 5).
 ammo(spoons, 2, 5).
 ammo(salt, 10, 30).
 ammo(msg, 1, 1).
