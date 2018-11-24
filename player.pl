@@ -87,5 +87,11 @@ attack :- enemy(EnName,I,J),
 		Ammo == 0, 
 		message_no_ammo.
 
+attack :- enemy(EnName,I,J), 
+		player_position(I,J), 
+		player_weapon(Name,Ammo), 
+		Name == 'none', 
+		message_no_weapon.
+
 attack :- \+enemy(EnName,I,J), 
 		message_noenemy_here.
