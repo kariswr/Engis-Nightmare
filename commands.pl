@@ -42,6 +42,7 @@ command(load(X)) :-
     game_ready(false), !,
     set_game_ready,
     % load procedures
+    load_game(X),
     message_load_game.
 
 command(load(X)) :-
@@ -54,6 +55,7 @@ command(load(X)) :-
 /*---------- SAVE ----------*/
 command(save(X)) :-
     % save procedures
+    save_game(X), !,
     message_save_game.
 
 /*---------- STATUS ----------*/
