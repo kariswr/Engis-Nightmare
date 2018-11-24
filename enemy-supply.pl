@@ -121,19 +121,19 @@ movement((Type,I,J), 0) :-
 
 movement((Type,I,J), 1) :-
     S is I + 1,
-    Row is I,
-    Col is S,
+    Row is S,
+    Col is J,
     \+ deadzone(Row,Col),
     retract(enemy(Type,I,J)),
     asserta(enemy(Type,S,J)).
 
 movement((Type, I, J), 2) :-
     S is I - 1,
-    Row is I,
-    Col is S,
+    Row is S,
+    Col is J,
     \+ deadzone(Row, Col),
-    retract(enemy(Type, I, J)),
-    asserta(enemy(Type, S, J)).
+    retract(enemy(Type,I,J)),
+    asserta(enemy(Type,S,J)).
 
 movement((Type, I, J), 3) :-
     S is J + 1,
@@ -363,5 +363,5 @@ tick_tock :-
     update_deadzone,
     player_in_deadzone,
     update_supplies, !,
-    update_enemies. 
+    update_enemies, !. 
 
