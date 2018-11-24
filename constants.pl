@@ -9,7 +9,7 @@
 :- dynamic(player_inventory/2). % player_inventory(List,Capacity)
 
 /*---------- ENEMIES & SUPPLIES ----------*/
-:- dynamic(object/3).           % object(Name,i,j)
+:- dynamic(supply/3).           % object(Name,i,j)
 :- dynamic(enemy/3).            % enemy(Name,i,j)
 :- dynamic(num_enemies/1).      % num_enemies(int)
 
