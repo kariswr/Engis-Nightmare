@@ -15,25 +15,33 @@ init_player :-
     asserta(player_inventory([],10)).
 
 init_enemies :- 
-    asserta(enemy(a,1,1)),
-    asserta(enemy(b,1,5)),
-    asserta(enemy(c,1,9)),
-    asserta(enemy(d,5,1)),
-    asserta(enemy(e,5,4)),
-    asserta(enemy(f,5,9)),
-    asserta(enemy(g,9,1)),
-    asserta(enemy(h,9,5)),
-    asserta(enemy(i,9,9)).
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy,
+	spawn_enemy. 
 
 init_supplies :-
-    asserta(supply(weapon1,5,5)),
-    asserta(supply(weapon2,7,5)),
-    asserta(supply(armor1,2,3)),
-    asserta(supply(armor2,7,1)),
-    asserta(supply(weapon1_ammo,5,5)),
-    asserta(supply(weapon2_ammo,8,7)),
-    asserta(supply(medicine,4,4)),
-    asserta(supply(poison,6,9)).
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply.
 
 init_deadzone :-
     asserta(deadzone(0,0)),
@@ -85,7 +93,7 @@ init_game :-
     init_player,
     init_enemies,
     init_supplies,
-    asserta(num_enemies(9)),
+    asserta(num_enemies(10)),
     asserta(clock(0)),
     init_deadzone.
 

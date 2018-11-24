@@ -83,7 +83,7 @@ deadzones :-
     setof(X, deadzone(X,X), DL), write(DL).
 
 supplies :-
-    findall(X, supply(X,I,J), SL), write(SL).
+    findall((X,I,J), supply(X,I,J), SL), write(SL).
 
 
 /*---------- Clock ----------*/
@@ -91,6 +91,20 @@ update_clock :-
     retract(clock(X)),
     Y is X + 1,
     asserta(clock(Y)).
+
+/*---------- Spawn Enemy ----------*/
+generate_enemy(0,I,J) :- asserta(enemy(customer,I,J)).
+generate_enemy(1,I,J) :- asserta(enemy(star_customer,I,J)).
+generate_enemy(2,I,J) :- asserta(enemy(hobo,I,J)).
+generate_enemy(3,I,J) :- asserta(enemy(rodent,I,J)).
+generate_enemy(4,I,J) :- asserta(enemy(flies,I,J)).
+generate_enemy(5,I,J) :- asserta(enemy(food_critic,I,J)).
+
+spawn_enemy :-
+    random(0,6,Type),
+    random(1,11,I),
+    random(1,11,J),
+    generate_enemy(Type,I,J).
 
 /*---------- Enemy Movement ----------*/
 enemy_list(EL) :- findall((Type,I,J), enemy(Type,I,J), EL).
