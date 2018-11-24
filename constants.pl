@@ -69,6 +69,14 @@ ingredient(raw_egg, -20).
 ingredient(chicken_meat, 20).
 ingredient(chicken, -10).
 
+/*---------- BAG ----------*/
+% bag(Name,Capacity)
+bag(extra_pocket, 1).
+bag(flour_sack, 5).
+bag(cardboard_box, 5).
+bag(trolley, 15).
+bag(fridge, 30).
+
 /*---------- AREAS ----------*/
 % area(i,j,Name)
 area(1, 1, lounge).
