@@ -19,7 +19,7 @@ command(X) :-
 
 command(X) :-
     \+ X = new,
-    \+ X = load(Y),
+    \+ X = load(_),
     game_ready(false), !,
     message_game_not_ready.
 
@@ -79,7 +79,7 @@ command(take(X)) :- take(X), tick_tock.
 command(drop(X)) :- drop(X), tick_tock.
 
 /*---------- USE ----------*/
-% command(use(X)) :-
+command(use(X)) :- use(X), tick_tock.
 
 /*---------- ATTACK ----------*/
 command(attack) :- attack, tick_tock.

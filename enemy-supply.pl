@@ -116,8 +116,7 @@ move_enemies([Head|Tail]) :-
     movement(Head, R),
     move_enemies(Tail).
 
-movement((Type,I,J), 0) :-
-    S is 0.
+movement((_,_,_), 0).
 
 movement((Type,I,J), 1) :-
     S is I + 1,
@@ -271,13 +270,14 @@ update_deadzone :- clock(21), !, init_deadzone2, message_update_deadzone.
 update_deadzone :- clock(31), !, init_deadzone3, message_update_deadzone.
 update_deadzone :- clock(41), !, init_deadzone4, message_update_deadzone.
 update_deadzone :- clock(51), !, init_deadzone5, message_update_deadzone.
-update_deadzone :- clock(X).
+update_deadzone.
 
 deadzone_list(L) :- findall((X,Y), deadzone(X,Y), L).
 
 player_in_deadzone :-
     deadzone(X,Y), player_position(X,Y), !,
     message_player_in_deadzone,
+    message_lose,
     erase_memory,
     asserta(game_ready(false)). 
 
