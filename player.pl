@@ -17,11 +17,11 @@ delete_one(Elmt, [Head|Tail], [Head|Result]) :-
 
 /*---------- N, S, W, E ----------*/
 n :- retract(player_position(I,J)), 
-	X is I+1, 
+	X is I-1, 
 	asserta(player_position(X,J)).
 
 s :- retract(player_position(I,J)), 
-	X is I-1, 
+	X is I+1, 
 	asserta(player_position(X,J)).
 
 w :- retract(player_position(I,J)),
