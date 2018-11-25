@@ -41,7 +41,6 @@ command(new) :-
 command(load(X)) :-
     game_ready(false), !,
     set_game_ready,
-    % load procedures
     \+load_game(X),!,
     message_load_game.
 
@@ -54,7 +53,6 @@ command(load(X)) :-
 
 /*---------- SAVE ----------*/
 command(save(X)) :-
-    % save procedures
     save_game(X), !,
     message_save_game.
 
@@ -63,30 +61,28 @@ command(status) :-
     show_status.
 
 /*---------- MAP ----------*/
-command(map) :-
-	show_map.
+command(map) :- show_map.
 
 /*---------- MOVING ----------*/
-% command(n) :-
-% command(s) :-
-% command(e) :-
-% command(w) :-
+command(n) :- n, tick_tock.
+command(s) :- s, tick_tock.
+command(e) :- e, tick_tock.
+command(w) :- w, tick_tock.
 
 /*---------- LOOK ----------*/
-command(look) :-
-	look.
+command(look) :- look.
 
 /*---------- TAKE ----------*/
-% command(take(X)) :-
+command(take(X)) :- take(X), tick_tock.
 
 /*---------- DROP ----------*/
-% command(drop(X)) :-
+command(drop(X)) :- drop(X), tick_tock.
 
 /*---------- USE ----------*/
 % command(use(X)) :-
 
 /*---------- ATTACK ----------*/
-% command(attack) :-
+command(attack) :- attack, tick_tock.
 
 /*---------- HELP ----------*/
 command(help) :-
