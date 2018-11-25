@@ -319,7 +319,7 @@ show_map :-
 /*---------- LOOK ----------*/
 
 /*data test*/
-deadzone(3,1).
+/*deadzone(3,1).
 
 enemy(ryan, 2, 2).
 enemy(prim, 2, 2).
@@ -337,7 +337,7 @@ ingredient(egg,1).
 ammo(spoon,1,2).
 weapon(pan,3).
 armor(hat,4).
-bag(trolley,15).
+bag(trolley,15).*/
 
 show_legend:-
 	write('  --------LEGEND--------'), nl,
