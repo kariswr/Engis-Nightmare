@@ -115,6 +115,7 @@ load_game(Filename):-
 	retract(player_weapon(W_a,W_b)),
 	retract(player_inventory(Inv_a,Inv_b)),
 	
+	
 	/* Read player data */
 	read(Stream, New_Health), 	  	 
 	read(Stream, New_Armor), 	 
@@ -131,34 +132,46 @@ load_game(Filename):-
 	asserta(player_weapon(New_W_a, New_W_b)),
 	asserta(player_inventory(New_Inv_a, New_Inv_b)),
 	
-	supply(S_a,S_b,S_c),
-	enemy(E_a, E_b, E_c),
-	deadzone(D_a,D_b),
+	/*supply(S_a,S_b,S_c),*/
+	/*enemy(E_a, E_b, E_c),*/
+	/*deadzone(D_a,D_b),*/
 	clock(Clock),
+	enemy_list(EL),
+	deadzone_list(DL),
+	supply_list(SL),
 	num_enemies(NumEn),
 
-	retract(supply(S_a,S_b,S_c)),
-	retract(enemy(E_a, E_b, E_c)),
-	retract(deadzone(D_a,D_b)),
+	/*retract(supply(S_a,S_b,S_c)),*/
+	/*retract(enemy(E_a, E_b, E_c)),*/
+	/*retract(deadzone(D_a,D_b)),*/
 	retract(clock(Clock)),
+	retract(enemy_list(EL)),
+	retract(deadzone_list(DL)),
+	retract(supply_list(SL)),
 	retract(num_enemies(NumEn)),
 	
 	/* Read map data */
-	read(Stream, New_S_a),
-	read(Stream, New_S_b),
-	read(Stream, New_S_c),
-	read(Stream, New_E_a),
-	read(Stream, New_E_b),
-	read(Stream, New_E_c),
-	read(Stream, New_D_a),
-	read(Stream, New_D_b),
-	read(Stream, New_Clock),		
+	/*read(Stream, New_S_a),*/
+	/*read(Stream, New_S_b),*/
+	/*read(Stream, New_S_c),*/
+	/*read(Stream, New_E_a),*/
+	/*read(Stream, New_E_b),*/
+	/*read(Stream, New_E_c),*/
+	/*read(Stream, New_D_a),*/
+	/*read(Stream, New_D_b),*/
+	read(Stream, New_Clock),
+	read(Stream, New_EL),
+	read(Stream, New_DL),
+	read(Stream, New_SL),		
 	read(Stream, New_NumEn),			
 
-	asserta(supply(New_S_a, New_S_b, New_S_c)),
-	asserta(enemy(New_E_a, New_E_b, New_E_c)),
-	asserta(deadzone(New_D_a, New_D_b)),
+	/*asserta(supply(New_S_a, New_S_b, New_S_c)),*/
+	/*asserta(enemy(New_E_a, New_E_b, New_E_c)),*/
+	/*asserta(deadzone(New_D_a, New_D_b)),*/
 	asserta(clock(New_Clock)),
+	asserta(enemy_list(New_EL)),
+	asserta(deadzone_list(New_DL)),
+	asserta(supply_list(New_SL)),
 	asserta(num_enemies(New_NumEn)),
 	
 	write('Data successfully loaded !'), nl,
@@ -178,10 +191,13 @@ save_game(Filename):-
 	player_weapon(W_a, W_b),
 	player_inventory(Inv_a, Inv_b),
 	
-	supply(S_a,S_b,S_c),
-	enemy(E_a, E_b, E_c),
-    	deadzone(D_a,D_b),
+	/*supply(S_a,S_b,S_c),*/
+	/*enemy(E_a, E_b, E_c),*/
+    	/*deadzone(D_a,D_b),*/
 	clock(Clock),
+	enemy_list(EL),
+	deadzone_list(DL),
+	supply_list(SL),
 	num_enemies(NumEn),
 	
 
@@ -196,15 +212,18 @@ save_game(Filename):-
 	write(Stream, Inv_b), 		    	write(Stream, '.'), nl(Stream),
 	
 	/* Write map data */
-	write(Stream, S_a), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, S_b), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, S_c), 		    	write(Stream, '.'), nl(Stream),
-    	write(Stream, E_a), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, E_b), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, E_c), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, D_a),	 		write(Stream, '.'), nl(Stream),
-	write(Stream, D_b), 			write(Stream, '.'), nl(Stream),
+	/*write(Stream, S_a), 		    	write(Stream, '.'), nl(Stream),*/
+	/*write(Stream, S_b), 		    	write(Stream, '.'), nl(Stream),*/
+	/*write(Stream, S_c), 		    	write(Stream, '.'), nl(Stream),*/
+    	/*write(Stream, E_a), 		    	write(Stream, '.'), nl(Stream),*/
+	/*write(Stream, E_b), 		    	write(Stream, '.'), nl(Stream),*/
+	/*write(Stream, E_c), 		    	write(Stream, '.'), nl(Stream),*/
+	/*write(Stream, D_a),	 		write(Stream, '.'), nl(Stream),*/
+	/*write(Stream, D_b), 			write(Stream, '.'), nl(Stream),*/
 	write(Stream, Clock), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, EL), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, DL), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, SL), 		    	write(Stream, '.'), nl(Stream),
 	write(Stream, NumEn), 		    	write(Stream, '.'), nl(Stream),
 	
 		
