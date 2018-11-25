@@ -98,149 +98,73 @@ init_game :-
     init_deadzone.
 
 /*---------- LOAD ----------*/
+read_things(Stream,[]):- 
+	at_end_of_stream(Stream). 
+
+read_things(Stream,[H|T]):- 
+	\+  at_end_of_stream(Stream), 
+	read(Stream,H), 
+	read_things(Stream,L).
+
+assert_things([]).
+assert_things([H|T]) :-
+	asserta(H),
+	assert_things(T).
+
 load_game(Filename):-
-	/* Function to load file */
-	
 	open(Filename, read, Stream),
-	
-	%player_health(Health), 
-	%player_armor(Armor),  
-	%player_position(Pos_x, Pos_y), 
-	%player_weapon(W_a,W_b),
-	%player_inventory(Inv_a,Inv_b),
-	
-	
-	retractall(player_health(_)),
-	retractall(player_armor(_)),
-	retractall(player_position(_, _)),
-	retractall(player_weapon(_,_)),
-	retractall(player_inventory(_,_)),
-	
-	
-	/* Read player data */
-	read(Stream, New_Health), 	  	 
-	read(Stream, New_Armor), 	 
-	read(Stream, New_Pos_x), 	
-	read(Stream, New_Pos_y),	
-	read(Stream, New_W_a),
-	read(Stream, New_W_b),
-	read(Stream, New_Inv_a),	
-	read(Stream, New_Inv_b), 
-	
-	
-	asserta(player_health(New_Health)),
-	asserta(player_armor(New_Armor)),
-	asserta(player_position(New_Pos_x, New_Pos_y)),
-	asserta(player_weapon(New_W_a, New_W_b)),
-	asserta(player_inventory(New_Inv_a, New_Inv_b)),
-	
-	
-	/*supply(S_a,S_b,S_c),*/
-	/*enemy(E_a, E_b, E_c),*/
-	/*deadzone(D_a,D_b),*/
-	%clock(Clock),
-	%enemy_list(EL),
-	%deadzone_list(DL),
-	%supply_list(SL),
-	%num_enemies(NumEn),
-	
 
-	/*retract(supply(S_a,S_b,S_c)),*/
-	/*retract(enemy(E_a, E_b, E_c)),*/
-	/*retract(deadzone(D_a,D_b)),*/
-	retractall(clock(_)),
-	%retractall(enemy_list(_)),
-	%retractall(deadzone_list(_)),
-	%retractall(supply_list(_)),
-	%retractall(num_enemies(_)),
-	
-	
-	/* Read map data */
-	/*read(Stream, New_S_a),*/
-	/*read(Stream, New_S_b),*/
-	/*read(Stream, New_S_c),*/
-	/*read(Stream, New_E_a),*/
-	/*read(Stream, New_E_b),*/
-	/*read(Stream, New_E_c),*/
-	/*read(Stream, New_D_a),*/
-	/*read(Stream, New_D_b),*/
-	read(Stream, New_Clock),
-	read(Stream, New_EL),
-	read(Stream, New_DL),
-	read(Stream, New_SL),		
-	read(Stream, New_NumEn),
-				
+	read_things(Stream, Data),
+	assert_things(Data),
 
-	/*asserta(supply(New_S_a, New_S_b, New_S_c)),*/
-	/*asserta(enemy(New_E_a, New_E_b, New_E_c)),*/
-	/*asserta(deadzone(New_D_a, New_D_b)),*/
-	asserta(clock(New_Clock)),
-	%asserta(enemy_list(New_EL)),
-	%asserta(deadzone_list(New_DL)),
-	%asserta(supply_list(New_SL)),
-	%asserta(num_enemies(New_NumEn)),
-	
-	
-	write('Data successfully loaded !'), nl,
+	message_load_game,
 	close(Stream).
 
 
 /*---------- SAVE ----------*/
+save_enemies([], Stream).
+save_enemies([(Type,EI,EJ)|ELT], Stream) :-
+	write(Stream, enemy(Type,EI,EJ)), write(Stream, '.'), nl(Stream),
+	save_enemies(ELT, Stream).
+
+save_supplies([], Stream).
+save_supplies([(Name,SI,SJ)|SLT], Stream) :-
+	write(Stream, supply(Name,SI,SJ)), write(Stream, '.'), nl(Stream),
+	save_supplies(SLT, Stream).
+
+save_deadzones([], Stream).
+save_deadzones([(DI,DJ)|DLT], Stream) :-
+	write(Stream, deadzone(DI,DJ)), write(Stream, '.'), nl(Stream),
+	save_deadzones(DLT, Stream).
+
 save_game(Filename):-
-	/* Function to save file */
-	
 	open(Filename, write, Stream),
 
-	/* Gathering data */
-	player_health(Health), 
-	player_armor(Armor), 
-	player_position(Pos_x, Pos_y), 
-	player_weapon(W_a, W_b),
-	player_inventory(Inv_a, Inv_b),
-	
-	/*supply(S_a,S_b,S_c),*/
-	/*enemy(E_a, E_b, E_c),*/
-    	/*deadzone(D_a,D_b),*/
-	clock(Clock),
-	enemy_list(EL),
-	deadzone_list(DL),
-	supply_list(SL),
+	player_position(I,J),
+	player_armor(Armor),
+	player_health(Health),
+	player_weapon(Weapon,Ammo),
+	player_inventory(IL,Cap),
+	clock(Ticks),
 	num_enemies(NumEn),
-	
 
-	/* Write player data */
-	write(Stream, Health), 			write(Stream, '.'), nl(Stream),
-	write(Stream, Armor), 			write(Stream, '.'), nl(Stream),
-	write(Stream, Pos_x), 			write(Stream, '.'), nl(Stream),
-	write(Stream, Pos_y), 			write(Stream, '.'), nl(Stream),
-	write(Stream, W_a), 			write(Stream, '.'), nl(Stream),
-   	write(Stream, W_b), 			write(Stream, '.'), nl(Stream),
-    	write(Stream, Inv_a), 			write(Stream, '.'), nl(Stream),
-	write(Stream, Inv_b), 		    	write(Stream, '.'), nl(Stream),
-	
-	/* Write map data */
-	/*write(Stream, S_a), 		    	write(Stream, '.'), nl(Stream),*/
-	/*write(Stream, S_b), 		    	write(Stream, '.'), nl(Stream),*/
-	/*write(Stream, S_c), 		    	write(Stream, '.'), nl(Stream),*/
-    	/*write(Stream, E_a), 		    	write(Stream, '.'), nl(Stream),*/
-	/*write(Stream, E_b), 		    	write(Stream, '.'), nl(Stream),*/
-	/*write(Stream, E_c), 		    	write(Stream, '.'), nl(Stream),*/
-	/*write(Stream, D_a),	 		write(Stream, '.'), nl(Stream),*/
-	/*write(Stream, D_b), 			write(Stream, '.'), nl(Stream),*/
-	write(Stream, Clock), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, EL), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, DL), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, SL), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, NumEn), 		    	write(Stream, '.'), nl(Stream),
-	
-		
-	write('Save data successfully created !'), nl,
+	write(Stream, player_position(I,J)),		write(Stream, '.'), nl(Stream),
+	write(Stream, player_armor(Armor)), 		write(Stream, '.'), nl(Stream),
+	write(Stream, player_weapon(Weapon,Ammo)), 	write(Stream, '.'), nl(Stream),
+	write(Stream, player_health(Health)), 		write(Stream, '.'), nl(Stream),
+    write(Stream, player_inventory(IL,Cap)), 	write(Stream, '.'), nl(Stream),
+	write(Stream, clock(Ticks)), 		    	write(Stream, '.'), nl(Stream),
+	write(Stream, num_enemies(NumEn)), 			write(Stream, '.'), nl(Stream),
+
+	enemy_list(EL),
+	save_enemies(EL, Stream),
+	supply_list(SL),
+	save_supplies(SL, Stream),
+	deadzone_list(DL),
+	save_deadzones(DL, Stream),
+	message_save_game,
 	close(Stream).
 	
-
-
-
-
 /*---------- QUIT ----------*/
 erase_memory :-
     retract(game_ready(_)),

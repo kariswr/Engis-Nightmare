@@ -52,9 +52,7 @@ command(load(X)) :-
     command(load(X)).
 
 /*---------- SAVE ----------*/
-command(save(X)) :-
-    save_game(X), !,
-    message_save_game.
+command(save(X)) :- save_game(X).
 
 /*---------- STATUS ----------*/
 command(status) :-

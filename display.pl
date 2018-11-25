@@ -162,7 +162,6 @@ show_status :-
     write(' Weapon   : '), write(WeaponName), nl,
     write(' Ammo     : '), write(WeaponAmmo), nl,
     write(' Health   : '), write(HP), nl,
-    write(' Time     : '), write(Ticks),nl,
     nl,
 
     write(' ---IN GAME STATUS---'), nl,
