@@ -298,7 +298,7 @@ kill_enemies([(Type,I,J)|T]) :-
 generate_supply(0) :- random(0,5,Type), random(1,11,I), random(1,11,J), generate_weapon(Type,I,J).
 generate_supply(1) :- random(0,6,Type), random(1,11,I), random(1,11,J), generate_ammo(Type,I,J).
 generate_supply(2) :- random(0,6,Type), random(1,11,I), random(1,11,J), generate_armor(Type,I,J).
-generate_supply(3) :- random(0,15,Type), random(1,11,I), random(1,11,J), generate_ingredient(Type,I,J).
+generate_supply(3) :- random(0,8,Type), random(1,11,I), random(1,11,J), generate_ingredient(Type,I,J).
 generate_supply(4) :- random(0,10,Type), random(1,11,I), random(1,11,J), generate_bag(Type,I,J).     
 
 generate_weapon(0,I,J) :- asserta(supply(spatula,I,J)).
@@ -322,20 +322,13 @@ generate_armor(4,I,J) :- asserta(supply(apron,I,J)).
 generate_armor(5,I,J) :- asserta(supply(mittens,I,J)).
 
 generate_ingredient(0,I,J) :- asserta(supply(patty,I,J)).
-generate_ingredient(1,I,J) :- asserta(supply(moldy_patty,I,J)).
-generate_ingredient(2,I,J) :- asserta(supply(cheese,I,J)).
-generate_ingredient(3,I,J) :- asserta(supply(moldy_cheese,I,J)).
-generate_ingredient(4,I,J) :- asserta(supply(milk,I,J)).
-generate_ingredient(5,I,J) :- asserta(supply(spoiled_milk,I,J)).
-generate_ingredient(6,I,J) :- asserta(supply(rice,I,J)).
-generate_ingredient(7,I,J) :- asserta(supply(bread,I,J)).
-generate_ingredient(8,I,J) :- asserta(supply(moldy_bread,I,J)).
-generate_ingredient(9,I,J) :- asserta(supply(banana,I,J)).
-generate_ingredient(10,I,J) :- asserta(supply(banana_peel,I,J)).
-generate_ingredient(11,I,J) :- asserta(supply(egg,I,J)).
-generate_ingredient(12,I,J) :- asserta(supply(raw_egg,I,J)).
-generate_ingredient(13,I,J) :- asserta(supply(chicken_meat,I,J)).
-generate_ingredient(14,I,J) :- asserta(supply(chicken,I,J)).
+generate_ingredient(1,I,J) :- asserta(supply(cheese,I,J)).
+generate_ingredient(2,I,J) :- asserta(supply(milk,I,J)).
+generate_ingredient(3,I,J) :- asserta(supply(rice,I,J)).
+generate_ingredient(4,I,J) :- asserta(supply(bread,I,J)).
+generate_ingredient(5,I,J) :- asserta(supply(banana,I,J)).
+generate_ingredient(6,I,J) :- asserta(supply(egg,I,J)).
+generate_ingredient(7,I,J) :- asserta(supply(chicken,I,J)).
 
 generate_bag(0,I,J) :- asserta(supply(extra_pocket,I,J)).
 generate_bag(1,I,J) :- asserta(supply(extra_pocket,I,J)).

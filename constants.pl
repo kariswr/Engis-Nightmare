@@ -55,19 +55,12 @@ armor(mittens, 5).
 /*---------- INGREDIENTS ----------*/
 % ingredient(Name,Effect)
 ingredient(patty, 20).
-ingredient(moldy_patty, -20).
 ingredient(cheese, 15).
-ingredient(moldy_cheese, -15).
 ingredient(milk, 15).
-ingredient(spoiled_milk, -15).
 ingredient(rice, 20).
 ingredient(bread, 15).
-ingredient(moldy_bread, -15).
 ingredient(banana, 10).
-ingredient(banana_peel, -5).
 ingredient(egg, 20).
-ingredient(raw_egg, -20).
-ingredient(chicken_meat, 20).
 ingredient(chicken, -10).
 
 /*---------- BAG ----------*/
