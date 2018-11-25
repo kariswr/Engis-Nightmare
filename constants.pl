@@ -34,6 +34,7 @@ weapon(salt_shaker, 1).
 weapon(msg_shaker, 30).
 weapon(trashbag, 10).
 
+/*--------- AMMO ----------*/
 % ammo(WeaponName,MinNumber,MaxNumber)
 ammo(forks, 2, 5).
 ammo(knives, 2, 5).
