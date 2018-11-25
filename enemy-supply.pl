@@ -265,11 +265,11 @@ init_deadzone5 :-
     asserta(deadzone(6,5)),
     asserta(deadzone(6,6)).
 
-update_deadzone :- clock(11), !, init_deadzone1, message_update_deadzone.
-update_deadzone :- clock(21), !, init_deadzone2, message_update_deadzone.
-update_deadzone :- clock(31), !, init_deadzone3, message_update_deadzone.
-update_deadzone :- clock(41), !, init_deadzone4, message_update_deadzone.
-update_deadzone :- clock(51), !, init_deadzone5, message_update_deadzone.
+update_deadzone :- clock(31), !, init_deadzone1, message_update_deadzone.
+update_deadzone :- clock(61), !, init_deadzone2, message_update_deadzone.
+update_deadzone :- clock(81), !, init_deadzone3, message_update_deadzone.
+update_deadzone :- clock(91), !, init_deadzone4, message_update_deadzone.
+update_deadzone :- clock(101), !, init_deadzone5, message_update_deadzone.
 update_deadzone.
 
 deadzone_list(L) :- findall((X,Y), deadzone(X,Y), L).
@@ -343,10 +343,7 @@ generate_bag(9,I,J) :- asserta(supply(fridge,I,J)).
 
 drop_supply :-
     random(0, 5, R),
-    generate_supply(R). 
-
-update_supplies :- clock(X), 0 is mod(X,5), !, drop_supply.
-update_supplies :- clock(X), \+ 0 is mod(X,5).
+    generate_supply(R).
 
 supply_list(L) :- findall((Type,I,J), supply(Type,I,J), L).
 
@@ -355,6 +352,6 @@ tick_tock :-
     update_clock,
     update_deadzone,
     player_in_deadzone,
-    update_supplies, !,
+    drop_supply, !,
     update_enemies, !. 
 
