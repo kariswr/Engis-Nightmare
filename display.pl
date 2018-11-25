@@ -49,21 +49,22 @@ message_take_succeed(Name) :- write('You take '), write(Name), write('.'), nl.
 message_invent_full :- write('Sorry, your inventory is full.'), nl.
 message_nonenemy_around :- write('There is no enemy around you.'), nl.
 message_supply_notfound(Name):- write('Sorry, there is no '), write(Name), write(' in your inventory.').
-message_nonenemy_here:- write("There is no enemy here. Your attack is useless"), nl.
-message_no_ammo:- write("You ran out of ammo. You can't attack the enemy."), nl.
-message_no_weapon:- write("You don't hold any weapon. You can't attack the enemy. Please use one of your weapon in inventory."), nl.
+message_nonenemy_here:- write('There is no enemy here. Your attack is useless.'), nl.
+message_no_ammo:- write('You ran out of ammo. You can\'t attack the enemy.'), nl.
+message_no_weapon:- write('You don\'t hold any weapon. You can\'t attack the enemy. Please use one of your weapon in inventory.'), nl.
 message_drop_succeed(Name):-write('You have successfully drop the '), write(Name), write('.'), nl.
 message_itemtake_found(Name):- write('You take '),write(Name),write('.'),nl.
 message_enemy_killed(Name):- write('You have killed '), write(Name), write('.'),nl.
-message_injured_butenemykilled(Name,Damage):- write("You have defeated "),write(Name),write('. '),write('Tho.. you took some hit from '),write(Name),write("'s attack."),nl,
+message_injured_butenemykilled(Name,Damage):- write('You have defeated '),write(Name),write('. '),write('Tho.. you took some hit from '),write(Name),write('\'s attack.'),nl,
 											write('Health -'),write(Damage),nl.
-message_player_gotkilled(Name):- write("Uh.. Oh.. You have been killed by "), write(Name), write('.'), nl.
+message_player_gotkilled(Name):- write('Uh.. Oh.. You have been killed by '), write(Name), write('.'), nl.
 message_use_weapon(Name):- write('You equiped '),write(Name),write('.'),nl.
-message_use_ingredient(Name,Value):- write('You eat '),write(Name),write('. '),write("Health +"),write(Value),nl.
-message_use_ingredient(Name,Damage):- write('Oh no!!! You eat '),write(Name),write('. '),write("Health -"),write(Value),nl.
-message_use_bag(Name,X):- write('You equiped '),write(Name),write('. '),write("Inventory +"),write(X),nl.
-message_use_ammo(Name,Value):- write('You equipped '),write(Name),write(' on your weapon. '),write("Ammunition +"),write(Value),nl.
+message_use_ingredient(Name,Value):- write('You eat '),write(Name),write('. '),write('Health +'),write(Value),nl.
+message_use_ingredient(Name,Damage):- write('Oh no!!! You eat '),write(Name),write('. '),write('Health -'),write(Value),nl.
+message_use_bag(Name,X):- write('You equiped '),write(Name),write('. '),write('Inventory +'),write(X),nl.
+message_use_ammo(Name,Value):- write('You equipped '),write(Name),write(' on your weapon. '),write('Ammunition +'),write(Value),nl.
 message_wrong_ammo(Weapon):- write('You selected wrong ammo type for '),write(Weapon),write('. '),nl.
+
 /*---------- STATUS ----------*/
 write_inventory([],Num).
 write_inventory([X|Xs],Num) :-write(Num), write('. '), write(X), nl, Y is Num+1, write_inventory(Xs,Y).
@@ -270,7 +271,7 @@ weapon(pan,3).
 armor(hat,4).*/
 
 show_legend:-
-	write('  --------LEGENDS--------'), nl,
+	write('  --------LEGEND--------'), nl,
 	write(' X = deadzone'),nl,
 	write(' P = player'),nl,
 	write(' E = enemy'),nl,
@@ -287,7 +288,7 @@ show_square(I,J):- supply(Name,I,J), ingredient(Name,_), write(' I '), !.
 show_square(I,J):- supply(Name,I,J), weapon(Name,_), write(' W '), !.
 show_square(I,J):- supply(Name,I,J), armor(Name,_), write(' A '), !.
 show_square(I,J):- supply(Name,I,J), ammo(Name,_,_), write(' O '), !.
-show_square(I,J):- write(' _ '),!.
+show_square(I,J):- write(' - '),!.
 
 supply_enemy_look(I,J):- enemy(Name,I,J), write('WATCH OUT!!! '), write(Name), write(' is on your position.'),nl.
 supply_enemy_look(I,J):- supply(patty,I,J), ingredient(patty,_), write('You see a patty. Hmm.. is it good for your health?'),nl.
@@ -307,7 +308,7 @@ supply_enemy_look(I,J):- supply(chicken_meat,I,J), ingredient(chicken_meat,_), w
 supply_enemy_look(I,J):- supply(chicken,I,J), ingredient(chicken,_), write('You see a chicken. It looks delicious. Hmm.. is it good for your health?'),nl.
 supply_enemy_look(I,J):- supply(Name,I,J), weapon(Name,_), write('You see a '),write(Name),write('. You can attack your "enemy" using it.'),nl.
 supply_enemy_look(I,J):- supply(Name,I,J), armor(Name,_), write('You see a '),write(Name),write('. It can be pretty useful for protecting yourself.'),nl.
-supply_enemy_look(I,J):- supply(Name,I,J), ammo(Name,_,_), write('You see a '),write(Name),write(". You can use it as your weapon's ammo."),nl.
+supply_enemy_look(I,J):- supply(Name,I,J), ammo(Name,_,_), write('You see some '),write(Name),write('. You can use it as your weapon\'s ammo.'),nl.
 supply_enemy_look(I,J):- \+supply(_,I,J) , \+enemy(_,I,J).
 
 look :-
