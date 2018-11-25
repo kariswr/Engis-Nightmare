@@ -266,11 +266,11 @@ init_deadzone5 :-
     asserta(deadzone(6,5)),
     asserta(deadzone(6,6)).
 
-update_deadzone :- clock(11), !, init_deadzone1.
-update_deadzone :- clock(21), !, init_deadzone2.
-update_deadzone :- clock(31), !, init_deadzone3.
-update_deadzone :- clock(41), !, init_deadzone4.
-update_deadzone :- clock(51), !, init_deadzone5.
+update_deadzone :- clock(11), !, init_deadzone1, message_update_deadzone.
+update_deadzone :- clock(21), !, init_deadzone2, message_update_deadzone.
+update_deadzone :- clock(31), !, init_deadzone3, message_update_deadzone.
+update_deadzone :- clock(41), !, init_deadzone4, message_update_deadzone.
+update_deadzone :- clock(51), !, init_deadzone5, message_update_deadzone.
 update_deadzone :- clock(X).
 
 deadzone_list(L) :- findall((X,Y), deadzone(X,Y), L).
