@@ -15,7 +15,7 @@ delete_one(Elmt, [Head|Tail], [Head|Result]) :-
   delete_one(Elmt, Tail, Result).
 
 match(A,B) :- A == silverware_sling, B == forks.
-match(A,B) :- A == silverware_sling, B == knifes.
+match(A,B) :- A == silverware_sling, B == knives.
 match(A,B) :- A == silverware_sling, B == spoons.
 match(A,B) :- A == salt_shaker, B == salt.
 match(A,B) :- A == msg_shaker, B == msg.
@@ -81,24 +81,26 @@ drop(Name) :- player_inventory(L,_),
 			message_drop_notfound(Name).
  
 /*---------- ATTACK ----------*/
-attack :- enemy(EnName,I,J),
+attack :-
 		player_position(I,J),
+		enemy(EnName,I,J),
 		player_weapon(Name,Ammo),
-		weapon(Name,Damage), 
-		Ammo >0, 
-		enemy_type(EnName,EnHealth), 
+		weapon(Name,Damage),
+		Ammo >0,
+		enemy_type(EnName,EnHealth),
 		Damage >= EnHealth,
 		retract(enemy(EnName,I,J)),
 		message_attack_succeed(EnName), !.
 
-attack :- enemy(EnName,I,J), 
-		player_position(I,J), 
-		player_weapon(Name,Ammo), 
-		weapon(Name,Damage), 
-		Ammo >0, 
+attack :-
+		player_position(I,J),
+		enemy(EnName,I,J),
+		player_weapon(Name,Ammo),
+		weapon(Name,Damage),
+		Ammo >0,
 		enemy_type(EnName,EnHealth),
 		Damage < EnHealth, 
-		TotalDamage is Damage*Ammo, 
+		TotalDamage is Damage*Ammo,
 		TotalDamage >= EnHealth,
 		ammo_ammount(Damage,EnHealth,A),
 		retract(player_health(X)),
@@ -109,8 +111,9 @@ attack :- enemy(EnName,I,J),
 		asserta(player_weapon(Name,Q)),
 		message_attack_injuredbutsucceed(EnName,A), !.
 
-attack :- enemy(EnName,I,J), 
-		player_position(I,J), 
+attack :-
+		player_position(I,J),
+		enemy(EnName,I,J), 
 		player_weapon(Name,Ammo), 
 		weapon(Name,Damage), 
 		Ammo >0, 
@@ -118,18 +121,21 @@ attack :- enemy(EnName,I,J),
 		Damage < EnHealth, 
 		TotalDamage is Damage*Ammo, 
 		TotalDamage < EnHealth,
+		write('Test2'),		
 		message_attack_playerdead, !,
 		message_lose,
     	erase_memory,
    		asserta(game_ready(false)).
 
-attack :- enemy(_,I,J), 
-		player_position(I,J), 
+attack :-
+		player_position(I,J), 		
+		enemy(_,I,J), 
 		player_weapon(_,0), 
 		message_attack_noammo, !.
 
-attack :- enemy(_,I,J), 
+attack :-
 		player_position(I,J), 
+		enemy(_,I,J), 
 		player_weapon(none,_), 
 		message_attack_noweapon, !.
 
@@ -207,10 +213,10 @@ use(Name) :- player_inventory(L,_),
 			MaxRand is Y + 1, random(X,MaxRand,Effect),
 			Q is Ammo + Effect,
 			retract(player_weapon(Weapon,Ammo)),
-			asserta(player_weapon(weapon,Q)),
-			delete_one(Name,L,X),
+			asserta(player_weapon(Weapon,Q)),
+			delete_one(Name,L,Result),
 			retract(player_inventory(L,Max)),
-			asserta(player_inventory(X,Max)),
+			asserta(player_inventory(Result,Max)),
 			message_use_ammo(Name,Effect), !.
 
 use(Name) :- player_inventory(L,_),
@@ -222,15 +228,12 @@ use(Name) :- player_inventory(L,_),
 
 use(Name) :- player_inventory(L,Max),
 			is_member(Name,L),
-			bag(Name,X),
-			player_inventory(L,Max),
-			Capacity is Max+X,
-			retract(player_inventory(L,Max)),
-			asserta(player_inventory(L,Capacity)),
+			bag(Name,W),
+			Capacity is Max+W,
 			delete_one(Name,L,X),
 			retract(player_inventory(L,Max)),
-			asserta(player_inventory(X,Max)),
-			message_use_bag(Name,X), !.
+			asserta(player_inventory(X,Capacity)),
+			message_use_bag(Name,W), !.
 
 
 use(Name) :- player_inventory(L,_),

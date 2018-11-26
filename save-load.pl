@@ -12,18 +12,9 @@ init_player :-
     asserta(player_armor(0)),
     asserta(player_weapon(none, 0)),
     asserta(player_health(100)),
-    asserta(player_inventory([],10)).
+    asserta(player_inventory([],2)).
 
 init_enemies :- 
-	spawn_enemy,
-	spawn_enemy,
-	spawn_enemy,
-	spawn_enemy,
-	spawn_enemy,
-	spawn_enemy,
-	spawn_enemy,
-	spawn_enemy,
-	spawn_enemy,
 	spawn_enemy. 
 
 init_supplies :-
@@ -41,7 +32,23 @@ init_supplies :-
 	drop_supply,
 	drop_supply,
 	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
+	drop_supply,
 	drop_supply.
+
 
 init_deadzone :-
     asserta(deadzone(0,0)),
@@ -93,7 +100,6 @@ init_game :-
     init_player,
     init_enemies,
     init_supplies,
-    asserta(num_enemies(10)),
     asserta(clock(0)),
     init_deadzone.
 
@@ -145,7 +151,6 @@ load_game(Filename):-
     read(Stream, IL),
     read(Stream, Cap),
 	read(Stream, Ticks),
-    read(Stream, NumEn),
     
     asserta(player_position(I,J)),
     asserta(player_armor(Armor)),
@@ -153,7 +158,6 @@ load_game(Filename):-
     asserta(player_health(Health)),
     asserta(player_inventory(IL,Cap)),
     asserta(clock(Ticks)),
-    asserta(num_enemies(NumEn)),
 
     load_enemies(Stream),
     load_supplies(Stream),
@@ -164,24 +168,24 @@ load_game(Filename):-
 
 
 /*---------- SAVE ----------*/
-save_enemies([], Stream).
+save_enemies([],_).
 save_enemies([(Type,EI,EJ)|ELT], Stream) :-
     write(Stream, Type), write(Stream, '.'), nl(Stream),
     write(Stream, EI), write(Stream, '.'), nl(Stream),
     write(Stream, EJ), write(Stream, '.'), nl(Stream),
 	save_enemies(ELT, Stream).
 
-save_supplies([], Stream).
+save_supplies([],_).
 save_supplies([(Name,SI,SJ)|SLT], Stream) :-
 	write(Stream, Name), write(Stream, '.'), nl(Stream),
 	write(Stream, SI), write(Stream, '.'), nl(Stream),
 	write(Stream, SJ), write(Stream, '.'), nl(Stream),
 	save_supplies(SLT, Stream).
 
-save_deadzones([], Stream).
+save_deadzones([],_).
 save_deadzones([(DI,DJ)|DLT], Stream) :-
 	write(Stream, DI), write(Stream, '.'), nl(Stream),
-	write(Stream, DI), write(Stream, '.'), nl(Stream),
+	write(Stream, DJ), write(Stream, '.'), nl(Stream),
 	save_deadzones(DLT, Stream).
 
 save_game(Filename):-
@@ -193,7 +197,6 @@ save_game(Filename):-
 	player_weapon(Weapon,Ammo),
 	player_inventory(IL,Cap),
 	clock(Ticks),
-	num_enemies(NumEn),
 
 	write(Stream, I), write(Stream, '.'), nl(Stream),
 	write(Stream, J), write(Stream, '.'), nl(Stream),
@@ -204,7 +207,6 @@ save_game(Filename):-
     write(Stream, IL), write(Stream, '.'), nl(Stream),
     write(Stream, Cap), write(Stream, '.'), nl(Stream),
 	write(Stream, Ticks), write(Stream, '.'), nl(Stream),
-	write(Stream, NumEn), write(Stream, '.'), nl(Stream),
 
 	enemy_list(EL),
     save_enemies(EL, Stream),
@@ -231,6 +233,5 @@ erase_memory :-
     retract(player_inventory(_,_)),
     retractall(object(_,_,_)),
     retractall(enemy(_,_,_)),
-    retract(num_enemies(_)),
     retract(clock(_)),
     retractall(deadzone(_,_)).

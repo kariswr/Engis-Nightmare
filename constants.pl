@@ -11,7 +11,6 @@
 /*---------- ENEMIES & SUPPLIES ----------*/
 :- dynamic(supply/3).           % object(Name,i,j)
 :- dynamic(enemy/3).            % enemy(Name,i,j)
-:- dynamic(num_enemies/1).      % num_enemies(int)
 
 /*---------- IN-GAME STATUS ----------*/
 :- dynamic(clock/1).            % clock(int)

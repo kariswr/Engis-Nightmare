@@ -126,6 +126,12 @@ movement((Type,I,J), 1) :-
     retract(enemy(Type,I,J)),
     asserta(enemy(Type,S,J)).
 
+movement((_,I,J), 1) :-
+    S is I + 1,
+    Row is S,
+    Col is J,
+    deadzone(Row,Col).
+
 movement((Type, I, J), 2) :-
     S is I - 1,
     Row is S,
@@ -133,6 +139,12 @@ movement((Type, I, J), 2) :-
     \+ deadzone(Row, Col),
     retract(enemy(Type,I,J)),
     asserta(enemy(Type,S,J)).
+
+movement((_, I, J), 2) :-
+    S is I - 1,
+    Row is S,
+    Col is J,
+    deadzone(Row, Col).
 
 movement((Type, I, J), 3) :-
     S is J + 1,
@@ -142,6 +154,12 @@ movement((Type, I, J), 3) :-
     retract(enemy(Type, I, J)),
     asserta(enemy(Type, I, S)).
 
+movement((_, I, J), 3) :-
+    S is J + 1,
+    Row is I,
+    Col is S,
+    deadzone(Row, Col).
+
 movement((Type, I, J), 4) :-
     S is J - 1,
     Row is I,
@@ -150,8 +168,14 @@ movement((Type, I, J), 4) :-
     retract(enemy(Type, I, J)),
     asserta(enemy(Type, I, S)).
 
+movement((_, I, J), 4) :-
+    S is J - 1,
+    Row is I,
+    Col is S,
+    deadzone(Row, Col).
+
 update_enemies :-
-    enemy_list(L1), move_enemies(L1),
+    enemy_list(L1), move_enemies(L1), nl,
     enemies_in_deadzone(L2), kill_enemies(L2). 
 
 /*---------- Deadzone ----------*/
@@ -265,11 +289,11 @@ init_deadzone5 :-
     asserta(deadzone(6,5)),
     asserta(deadzone(6,6)).
 
-update_deadzone :- clock(31), !, init_deadzone1, message_update_deadzone.
-update_deadzone :- clock(61), !, init_deadzone2, message_update_deadzone.
-update_deadzone :- clock(81), !, init_deadzone3, message_update_deadzone.
-update_deadzone :- clock(91), !, init_deadzone4, message_update_deadzone.
-update_deadzone :- clock(101), !, init_deadzone5, message_update_deadzone.
+update_deadzone :- clock(1), !, init_deadzone1, message_update_deadzone.
+update_deadzone :- clock(2), !, init_deadzone2, message_update_deadzone.
+update_deadzone :- clock(3), !, init_deadzone3, message_update_deadzone.
+update_deadzone :- clock(4), !, init_deadzone4, message_update_deadzone.
+update_deadzone :- clock(5), !, init_deadzone5, message_update_deadzone.
 update_deadzone.
 
 deadzone_list(L) :- findall((X,Y), deadzone(X,Y), L).
@@ -289,9 +313,6 @@ enemies_in_deadzone(EL) :- findall((Type,I,J), (enemy(Type,I,J), deadzone(I,J)),
 kill_enemies([]).
 kill_enemies([(Type,I,J)|T]) :-
     retract(enemy(Type,I,J)),
-    retract(num_enemies(X)),
-    Y is X - 1,
-    asserta(num_enemies(Y)),
     kill_enemies(T).
 
 /*---------- Supply Drop ----------*/
@@ -348,10 +369,18 @@ drop_supply :-
 supply_list(L) :- findall((Type,I,J), supply(Type,I,J), L).
 
 /*---------- The One Procedure to Change It All ----------*/
+check_enemies :-
+	\+ enemy(_,_,_), !,
+	message_win,
+	erase_memory,
+	asserta(game_ready(false)).
+
+check_enemies :- enemy(_,_,_).
+
 tick_tock :-
     update_clock,
     update_deadzone,
+    check_enemies,
     player_in_deadzone,
     drop_supply, !,
-    update_enemies, !. 
-
+    update_enemies, !.

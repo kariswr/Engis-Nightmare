@@ -120,6 +120,8 @@ message_location:- player_position(I,J), area(I,J,Name), write(' You are in the 
 
 message_win:- 
 nl,
+write(' You have successfully vanquished your fears! Congratulations!'), nl,
+nl,
 write('      __   __  _______  __   __    _     _  ___   __    _ '), nl,
 write('     |  | |  ||       ||  | |  |  | | _ | ||   | |  |  | |'), nl,
 write('     |  |_|  ||   _   ||  | |  |  | || || ||   | |   |_| |'), nl,
@@ -129,8 +131,7 @@ write('       |   |  |       ||       |  |   _   ||   | | | |   |'), nl,
 write('       |___|  |_______||_______|  |__| |__||___| |_|  |__|'), nl,
 nl,
 nl,
-write('                         Congratulation!!!                '),nl,
-write('         Thank you for saving "beloved" Engi\'s Kitchen   '), nl.
+write('         Thank you for saving "beloved" Engi\'s Kitchen.'), nl.
 
 message_lose:-
 nl,
