@@ -98,24 +98,66 @@ init_game :-
     init_deadzone.
 
 /*---------- LOAD ----------*/
-read_things(Stream,[]):- 
-	at_end_of_stream(Stream). 
+load_enemies(Stream) :-
+    read(Stream, Type),
+    \+ Type == enemy_end, !,    
+    read(Stream, EI),
+    read(Stream, EJ),
+    asserta(enemy(Type, EI, EJ)),
+    load_enemies(Stream).
 
-read_things(Stream,[H|T]):- 
-	\+  at_end_of_stream(Stream), 
-	read(Stream,H), 
-	read_things(Stream,L).
+load_enemies(Stream) :-
+    read(Stream, Type),
+    Type == dummy.
 
-assert_things([]).
-assert_things([H|T]) :-
-	asserta(H),
-	assert_things(T).
+load_supplies(Stream) :-
+    read(Stream, Name),
+    \+ Name == supply_end, !,  
+    read(Stream, SI),
+    read(Stream, SJ),
+    asserta(supply(Name, SI, SJ)),
+    load_supplies(Stream).
+
+load_supplies(Stream) :-
+    read(Stream, Name),
+    Name == dummy.
+
+load_deadzones(Stream) :-
+    read(Stream, DI),
+    \+ DI == deadzone_end, !,    
+    read(Stream, DJ),
+    asserta(deadzone(DI, DJ)),
+    load_deadzones(Stream).
+
+load_deadzones(Stream) :-
+    read(Stream, DI),
+    DI == dummy.
 
 load_game(Filename):-
 	open(Filename, read, Stream),
 
-	read_things(Stream, Data),
-	assert_things(Data),
+	read(Stream, I),
+	read(Stream, J),
+	read(Stream, Armor),
+	read(Stream, Weapon),
+	read(Stream, Ammo),
+	read(Stream, Health),
+    read(Stream, IL),
+    read(Stream, Cap),
+	read(Stream, Ticks),
+    read(Stream, NumEn),
+    
+    asserta(player_position(I,J)),
+    asserta(player_armor(Armor)),
+    asserta(player_weapon(Weapon,Ammo)),
+    asserta(player_health(Health)),
+    asserta(player_inventory(IL,Cap)),
+    asserta(clock(Ticks)),
+    asserta(num_enemies(NumEn)),
+
+    load_enemies(Stream),
+    load_supplies(Stream),
+    load_deadzones(Stream),
 
 	message_load_game,
 	close(Stream).
@@ -124,17 +166,22 @@ load_game(Filename):-
 /*---------- SAVE ----------*/
 save_enemies([], Stream).
 save_enemies([(Type,EI,EJ)|ELT], Stream) :-
-	write(Stream, enemy(Type,EI,EJ)), write(Stream, '.'), nl(Stream),
+    write(Stream, Type), write(Stream, '.'), nl(Stream),
+    write(Stream, EI), write(Stream, '.'), nl(Stream),
+    write(Stream, EJ), write(Stream, '.'), nl(Stream),
 	save_enemies(ELT, Stream).
 
 save_supplies([], Stream).
 save_supplies([(Name,SI,SJ)|SLT], Stream) :-
-	write(Stream, supply(Name,SI,SJ)), write(Stream, '.'), nl(Stream),
+	write(Stream, Name), write(Stream, '.'), nl(Stream),
+	write(Stream, SI), write(Stream, '.'), nl(Stream),
+	write(Stream, SJ), write(Stream, '.'), nl(Stream),
 	save_supplies(SLT, Stream).
 
 save_deadzones([], Stream).
 save_deadzones([(DI,DJ)|DLT], Stream) :-
-	write(Stream, deadzone(DI,DJ)), write(Stream, '.'), nl(Stream),
+	write(Stream, DI), write(Stream, '.'), nl(Stream),
+	write(Stream, DI), write(Stream, '.'), nl(Stream),
 	save_deadzones(DLT, Stream).
 
 save_game(Filename):-
@@ -148,20 +195,29 @@ save_game(Filename):-
 	clock(Ticks),
 	num_enemies(NumEn),
 
-	write(Stream, player_position(I,J)),		write(Stream, '.'), nl(Stream),
-	write(Stream, player_armor(Armor)), 		write(Stream, '.'), nl(Stream),
-	write(Stream, player_weapon(Weapon,Ammo)), 	write(Stream, '.'), nl(Stream),
-	write(Stream, player_health(Health)), 		write(Stream, '.'), nl(Stream),
-    write(Stream, player_inventory(IL,Cap)), 	write(Stream, '.'), nl(Stream),
-	write(Stream, clock(Ticks)), 		    	write(Stream, '.'), nl(Stream),
-	write(Stream, num_enemies(NumEn)), 			write(Stream, '.'), nl(Stream),
+	write(Stream, I), write(Stream, '.'), nl(Stream),
+	write(Stream, J), write(Stream, '.'), nl(Stream),
+	write(Stream, Armor), write(Stream, '.'), nl(Stream),
+	write(Stream, Weapon), write(Stream, '.'), nl(Stream),
+	write(Stream, Ammo), write(Stream, '.'), nl(Stream),
+	write(Stream, Health), write(Stream, '.'), nl(Stream),
+    write(Stream, IL), write(Stream, '.'), nl(Stream),
+    write(Stream, Cap), write(Stream, '.'), nl(Stream),
+	write(Stream, Ticks), write(Stream, '.'), nl(Stream),
+	write(Stream, NumEn), write(Stream, '.'), nl(Stream),
 
 	enemy_list(EL),
-	save_enemies(EL, Stream),
-	supply_list(SL),
-	save_supplies(SL, Stream),
+    save_enemies(EL, Stream),
+    write(Stream, 'enemy_end.'), nl(Stream),
+    write(Stream, 'dummy.'), nl(Stream),
+    supply_list(SL),
+    save_supplies(SL, Stream),
+    write(Stream, 'supply_end.'), nl(Stream),
+    write(Stream, 'dummy.'), nl(Stream),
 	deadzone_list(DL),
-	save_deadzones(DL, Stream),
+    save_deadzones(DL, Stream),
+    write(Stream, 'deadzone_end.'), nl(Stream),
+    write(Stream, 'dummy.'), nl(Stream),
 	message_save_game,
 	close(Stream).
 	
