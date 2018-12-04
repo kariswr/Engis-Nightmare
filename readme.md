@@ -7,7 +7,7 @@ Engi, a chef known for his painstaking kitchen simulations (*Engi's Kitchen*, *E
 To play the game, you need to have GNU Prolog installed on your system.
 
 ## How To Play
-To start the game, run **main.pl**.
+To start the game, run **main.pl** and type "**start.**".
 
 ## Credits
 - Muhammand Rizki Fonna (13516001)
